@@ -41,6 +41,14 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Build outputs
+dist/
+cdk.out/
+
+# Playwright
+playwright-report/
+test-results/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

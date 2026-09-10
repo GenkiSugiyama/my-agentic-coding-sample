@@ -1,0 +1,21 @@
+{
+  "name": "@workspace/aws",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild bin/app.ts --bundle --format=esm --packages=external --platform=node --target=node24 --outfile=dist/app.js",
+    "synth": "npm run build && cdk synth",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.215.0",
+    "cdk-nag": "^2.37.20",
+    "constructs": "^10.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "aws-cdk": "^2.1029.2",
+    "esbuild": "^0.25.9"
+  }
+}

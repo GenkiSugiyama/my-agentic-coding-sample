@@ -1,0 +1,22 @@
+{
+  "name": "@workspace/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/lambda.ts --bundle --format=esm --platform=node --target=node24 --outfile=dist/lambda.js",
+    "dev": "node --experimental-strip-types --watch src/server.ts",
+    "start": "node --experimental-strip-types src/server.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.1",
+    "@workspace/shared": "*",
+    "hono": "^4.9.6"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.152",
+    "@types/node": "^24.3.1",
+    "esbuild": "^0.25.9"
+  }
+}

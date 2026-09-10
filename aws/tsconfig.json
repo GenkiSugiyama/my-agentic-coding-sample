@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": ["bin", "src"]
+}

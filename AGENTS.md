@@ -32,3 +32,9 @@
 - Format/Lint/Testが一貫して成功している
 - テストカバレッジは80%以上を必達、100%を目指す
   - カバレッジ取得コマンド: `npx vitest --run --coverage`
+
+## Context exclusions
+
+- `node_modules/`, `dist/`, `coverage/` は調査対象に含めない
+- `.env` および秘密情報を含むファイルは読み取らない
+- 自動生成ファイルは、明示的に依頼された場合を除いて変更しない
