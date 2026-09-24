@@ -27,3 +27,7 @@ CloudFront既定証明書では`minimumProtocolVersion`の指定が無効にな�
 ## カバレッジ対象外
 
 `backend/src/lambda.ts`、`backend/src/server.ts`、`frontend/src/main.tsx`は、テスト済みのアプリケーションを各ランタイムへ接続するだけのエントリーポイントであるため、カバレッジ集計から除外する。Lambdaの成果物生成とブラウザ起動はbuildおよびE2Eで検証する。
+
+## 作業再開メモの削除
+
+最終セルフチェック完了後、役目を終えた`docs/work-in-progress.md`を削除する。恒久的なImplementation Plan、ADR、Design Docへ内容を移管したためである。

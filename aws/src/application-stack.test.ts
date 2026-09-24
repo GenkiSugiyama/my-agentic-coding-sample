@@ -6,12 +6,14 @@ import { ApplicationStack } from "./application-stack.ts";
 
 function createStack() {
   const app = new App();
-  const stack = new ApplicationStack(app, "TestStack");
+  const stack = new ApplicationStack(app, "TestStack", {
+    env: { region: "us-east-1" },
+  });
   return { app, stack };
 }
 
 describe("ApplicationStack", () => {
-  it("creates a private frontend with a Lambda-backed HTTP API", () => {
+  it("creates a private frontend with a hardened Lambda-backed HTTP API", () => {
     const { stack } = createStack();
     const template = Template.fromStack(stack);
     template.resourceCountIs("AWS::S3::Bucket", 2);
@@ -21,12 +23,32 @@ describe("ApplicationStack", () => {
     template.hasResourceProperties("AWS::Lambda::Function", {
       Handler: "index.handler",
       Runtime: "nodejs24.x",
+      TracingConfig: { Mode: "Active" },
     });
     template.hasResourceProperties("AWS::ApiGatewayV2::Route", {
-      RouteKey: "ANY /api/{proxy+}",
+      RouteKey: "GET /api/health",
     });
     template.hasResourceProperties("AWS::CloudFront::Distribution", {
-      DistributionConfig: Match.objectLike({ Enabled: true }),
+      DistributionConfig: Match.objectLike({
+        Enabled: true,
+        WebACLId: Match.anyValue(),
+      }),
+    });
+    template.hasResourceProperties("AWS::CloudFront::ResponseHeadersPolicy", {
+      ResponseHeadersPolicyConfig: Match.objectLike({
+        SecurityHeadersConfig: Match.objectLike({
+          ContentSecurityPolicy: Match.objectLike({
+            ContentSecurityPolicy: Match.stringLikeRegexp("default-src 'self'"),
+          }),
+          StrictTransportSecurity: Match.objectLike({
+            AccessControlMaxAgeSec: 63_072_000,
+          }),
+        }),
+      }),
+    });
+    template.hasResourceProperties("AWS::WAFv2::WebACL", {
+      DefaultAction: { Allow: {} },
+      Scope: "CLOUDFRONT",
     });
   });
 

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "minimumReleaseAge": "7 days",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+  "internalChecksFilter": "strict",
+  "prCreation": "not-pending",
+  "rangeStrategy": "pin",
+  "automerge": false,
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "description": "Keep major upgrades isolated for explicit review",
+      "matchUpdateTypes": ["major"],
+      "groupName": null
+    }
+  ]
+}

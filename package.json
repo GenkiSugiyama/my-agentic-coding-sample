@@ -10,7 +10,8 @@
     "packages/*"
   ],
   "engines": {
-    "node": ">=22"
+    "node": "24.21.0",
+    "npm": "11.19.0"
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present",
@@ -22,12 +23,25 @@
     "lint": "biome lint .",
     "test": "npm run build && vitest --run",
     "test:coverage": "npm run build && vitest --run --coverage",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "prepare": "husky",
+    "security:audit": "npm audit --package-lock-only --audit-level=high",
+    "security:signatures": "npm audit signatures",
+    "security:secrets:staged": "gitleaks git --staged --redact --no-banner",
+    "security:actions:lint": "actionlint",
+    "security:actions:audit": "zizmor --persona auditor --offline ."
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
     "@vitest/coverage-v8": "^5.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.5.1",
     "typescript": "^5.9.2",
     "vitest": "^5.0.0"
+  },
+  "packageManager": "npm@11.19.0",
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true
   }
 }
