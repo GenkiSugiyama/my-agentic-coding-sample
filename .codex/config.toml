@@ -1,0 +1,48 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# Continue unattended only inside the project-scoped permission boundary.
+approval_policy = "never"
+default_permissions = "project-only"
+allow_login_shell = false
+web_search = "disabled"
+
+[features]
+browser_use = false
+
+[features.network_proxy]
+enabled = true
+allow_upstream_proxy = false
+enable_socks5 = false
+enable_socks5_udp = false
+dangerously_allow_all_unix_sockets = false
+dangerously_allow_non_loopback_proxy = false
+
+[apps._default]
+enabled = false
+
+[permissions.project-only.filesystem]
+":minimal" = "read"
+":tmpdir" = "write"
+":slash_tmp" = "write"
+glob_scan_max_depth = 8
+
+[permissions.project-only.filesystem.":workspace_roots"]
+"." = "write"
+".git" = "read"
+".agents" = "read"
+".codex" = "read"
+".devcontainer" = "read"
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+
+# Permit only loopback traffic required by local frontend/backend and E2E tests.
+[permissions.project-only.network]
+enabled = true
+
+[permissions.project-only.network.domains]
+"localhost" = "allow"
+"127.0.0.1" = "allow"
+"::1" = "allow"
+
+[permissions.project-only.network.unix_sockets]
+"/var/run/docker.sock" = "deny"
